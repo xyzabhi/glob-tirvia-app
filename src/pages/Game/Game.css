@@ -1,0 +1,175 @@
+.game-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #87ceeb 0%, #98fb98 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.score-display {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-self: flex-end;
+  margin-bottom: -1rem;
+}
+
+.clues-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.clue-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  min-height: 150px;
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.clue-card:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+.clue-card:hover {
+  transform: rotate(0) scale(1.05);
+}
+
+.postcard-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  border-bottom: 2px dashed #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.stamp {
+  font-size: 1.5rem;
+}
+
+.postmark {
+  font-family: "Courier New", monospace;
+  color: #666;
+}
+
+.options-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 1rem;
+}
+
+.option-button {
+  width: 100%;
+  background: #ffd700;
+  border: none;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.option-button:hover {
+  transform: scale(1.05);
+}
+
+.feedback-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+}
+
+.feedback-container.correct {
+  background: rgba(152, 251, 152, 0.95);
+}
+
+.feedback-container.incorrect {
+  background: rgba(255, 182, 193, 0.95);
+}
+
+.feedback-emoji {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 0.5s ease infinite;
+}
+
+.fun-fact {
+  margin: 1rem 0;
+  font-style: italic;
+  color: #666;
+}
+
+.play-again-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.play-again-button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  align-self: flex-start;
+  margin-bottom: -1rem;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+}
+
+.back-icon {
+  font-size: 1.2rem;
+}
