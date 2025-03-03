@@ -1,3 +1,7 @@
+# Project Architercture
+![Screenshot 2025-03-03 at 1 03 21 PM](https://github.com/user-attachments/assets/7b2c3234-c26f-4b82-bf54-bdfaf8ddc850)
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
