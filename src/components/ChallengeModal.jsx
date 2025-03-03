@@ -22,6 +22,7 @@ function ChallengeModal({ isOpen, onClose, score, username }) {
       navigator.clipboard.writeText(shareUrl);
       alert("Challenge link copied to clipboard!");
     }
+    onClose();
   };
 
   return (
