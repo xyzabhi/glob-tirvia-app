@@ -67,6 +67,10 @@
   transition: color 0.3s ease;
 }
 
+.clue-card:hover p {
+  color: #ffffff;
+}
+
 .clue-card:nth-child(even) {
   transform: rotate(2deg);
 }
