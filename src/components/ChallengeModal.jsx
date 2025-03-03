@@ -4,7 +4,7 @@ import "./ChallengeModal.css";
 function ChallengeModal({ isOpen, onClose, score, username }) {
   if (!isOpen) return null;
 
-  const shareUrl = `${window.location.origin}/game?from=${username}&score=${score}`;
+  const shareUrl = `${window.location.origin}/?from=${username}&score=${score}`;
 
   const handleShare = async () => {
     if (navigator.share) {
