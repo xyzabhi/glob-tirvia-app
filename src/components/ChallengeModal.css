@@ -1,17 +1,24 @@
 .challenge-modal {
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
 }
 
 .challenge-preview {
-  background: #f5f5f5;
+  background: #f8f9fa;
   padding: 1.5rem;
-  border-radius: 10px;
+  border-radius: 8px;
   margin: 1.5rem 0;
+  border: 1px solid #e9ecef;
 }
 
 .challenge-text {
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
 }
 
 .challenge-score {
@@ -30,12 +37,13 @@
 .close-button {
   padding: 0.8rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.2s ease;
 }
 
 .share-button {
@@ -50,8 +58,12 @@
 
 .share-button:hover {
   background: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .close-button:hover {
   background: #e5e5e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

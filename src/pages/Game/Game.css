@@ -1,41 +1,70 @@
 .game-container {
   min-height: 100vh;
-  padding: 2rem;
-  background: linear-gradient(135deg, #87ceeb 0%, #98fb98 100%);
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a0933 0%, #2d1154 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .score-display {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--secondary-bg);
+  color: var(--text-color);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  align-self: flex-end;
-  margin-bottom: -1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  margin-bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.username {
+  color: var(--accent-color);
 }
 
 .clues-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: center;
+  width: 100%;
   max-width: 800px;
+  padding: 0 1rem;
+  margin-top: 4rem;
 }
 
 .clue-card {
-  background: white;
+  background-image: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    rgba(240, 139, 139, 1) 0%,
+    rgba(243, 252, 166, 1) 90%
+  );
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  box-shadow: 0 4px 15px rgba(255, 223, 150, 0.1);
+  width: 100%;
+  max-width: 300px;
   min-height: 150px;
   transform: rotate(-2deg);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 223, 150, 0.2);
+  backdrop-filter: blur(5px);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.clue-card p {
+  color: #000000;
+  transition: color 0.3s ease;
 }
 
 .clue-card:nth-child(even) {
@@ -44,6 +73,12 @@
 
 .clue-card:hover {
   transform: rotate(0) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 223, 150, 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 223, 150, 0.2) 0%,
+    rgba(45, 17, 84, 0.95) 100%
+  );
 }
 
 .postcard-header {
@@ -60,12 +95,13 @@
 
 .postmark {
   font-family: "Courier New", monospace;
-  color: #666;
+  color: var(--text-color);
+  opacity: 0.8;
 }
 
 .options-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
   width: 100%;
   max-width: 600px;
@@ -74,33 +110,55 @@
 
 .option-button {
   width: 100%;
-  background: #ffd700;
+  background: var(--accent-color);
+  color: var(--text-color);
   border: none;
   padding: 1rem;
   border-radius: 10px;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s;
 }
 
 .option-button:hover {
   transform: scale(1.05);
+  background: var(--button-hover);
 }
 
 .feedback-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 223, 150, 0.15) 0%,
+    rgba(45, 17, 84, 0.9) 100%
+  );
+  color: var(--text-color);
+  padding: 1.5rem;
   border-radius: 15px;
   text-align: center;
   animation: slideIn 0.5s ease-out;
+  width: 90%;
+  max-width: 500px;
+  margin: 1rem;
+  border: 1px solid rgba(255, 223, 150, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 .feedback-container.correct {
-  background: rgba(152, 251, 152, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.2) 0%,
+    rgba(45, 17, 84, 0.9) 100%
+  );
+  border-color: rgba(76, 175, 80, 0.3);
 }
 
 .feedback-container.incorrect {
-  background: rgba(255, 182, 193, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(244, 67, 54, 0.2) 0%,
+    rgba(45, 17, 84, 0.9) 100%
+  );
+  border-color: rgba(244, 67, 54, 0.3);
 }
 
 .feedback-emoji {
@@ -151,7 +209,8 @@
 }
 
 .back-button {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--secondary-bg);
+  color: var(--text-color);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 20px;
@@ -160,16 +219,161 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  align-self: flex-start;
-  margin-bottom: -1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  margin-bottom: 0;
+  z-index: 10;
 }
 
 .back-button:hover {
   transform: scale(1.05);
+  background: var(--button-hover);
 }
 
 .back-icon {
   font-size: 1.2rem;
+}
+
+.challenge-button {
+  background: linear-gradient(135deg, #ff8a00 0%, #ff5100 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+  animation: flashingBorder 2s infinite;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.challenge-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff5100 0%, #ff8a00 100%);
+  box-shadow: 0 6px 20px rgba(255, 138, 0, 0.4);
+}
+
+@keyframes flashingBorder {
+  0% {
+    box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(255, 138, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+  }
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .game-container {
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .options-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .clue-card {
+    width: 300px;
+  }
+
+  .clues-container {
+    gap: 2rem;
+    margin-top: 5rem;
+  }
+
+  .score-display,
+  .back-button {
+    position: absolute;
+    top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .clues-container {
+    margin-top: 3rem;
+    padding: 0 0.5rem;
+  }
+
+  .clue-card {
+    transform: none;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    min-height: 100px;
+    max-width: 250px;
+    font-size: 0.9rem;
+  }
+
+  .clue-card:nth-child(even) {
+    transform: none;
+  }
+
+  .clue-card:hover {
+    transform: scale(1.02);
+  }
+
+  .options-container {
+    margin-top: 0.5rem;
+    padding: 0 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .option-button {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    min-height: 40px;
+  }
+
+  .feedback-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .feedback-emoji {
+    font-size: 2rem;
+  }
+
+  .game-container {
+    padding: 0.5rem;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    padding-top: 4rem;
+  }
+
+  .score-display {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .challenge-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Additional breakpoint for very small heights */
+@media (max-height: 667px) {
+  .clue-card {
+    min-height: 80px;
+    padding: 0.8rem;
+  }
+
+  .options-container {
+    margin-top: 0.3rem;
+  }
+
+  .option-button {
+    padding: 0.5rem;
+  }
 }

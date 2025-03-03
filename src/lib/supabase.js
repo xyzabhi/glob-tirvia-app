@@ -10,15 +10,50 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-console.log(supabaseUrl, supabaseAnonKey);
+// Add caching for trivia questions
+const CACHE_KEY = "trivia_cache";
+const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
 export async function getRandomTrivia() {
-  let { data, error } = await supabase.from("trivias").select("*").range(0, 9);
+  try {
+    const seenQuestionIds = JSON.parse(
+      localStorage.getItem("seenQuestionIds") || "[]"
+    );
 
-  if (error) {
-    console.error("Error fetching random trivia:", error);
-    throw error;
+    // Check cache first
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+    if (cache && cache.timestamp > Date.now() - CACHE_DURATION) {
+      const availableQuestions = cache.questions.filter(
+        (q) => !seenQuestionIds.includes(q.id)
+      );
+      if (availableQuestions.length) {
+        return availableQuestions[0];
+      }
+    }
+
+    // Fetch from Supabase if cache miss
+    const { data, error } = await supabase
+      .from("trivias")
+      .select("*")
+      .filter("id", "not.in", `(${seenQuestionIds.join(",")})`)
+      .order("id", { ascending: false })
+      .limit(10); // Fetch 10 questions at once for caching
+
+    if (error) throw error;
+    if (!data?.length) return null;
+
+    // Update cache
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        questions: data,
+        timestamp: Date.now(),
+      })
+    );
+
+    return data[0];
+  } catch (error) {
+    console.error("Error in getRandomTrivia:", error);
+    throw new Error("Failed to fetch trivia question");
   }
-
-  return data?.[0] || null;
 }

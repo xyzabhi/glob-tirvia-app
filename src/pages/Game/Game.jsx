@@ -4,51 +4,67 @@ import confetti from "canvas-confetti";
 import { useNavigate } from "react-router-dom";
 import ChallengeModal from "../../components/ChallengeModal";
 import UserRegistration from "../../components/UserRegistration";
-
+import { getRandomTrivia } from "../../lib/supabase";
 export default function Game() {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [options, setOptions] = useState([]);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(
+    parseInt(localStorage.getItem("score")) || 0
+  );
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [username, setUsername] = useState(
-    localStorage.getItem("username") || ""
-  );
+  const username = localStorage.getItem("username");
   const [showRegistration, setShowRegistration] = useState(!username);
   const [showChallengeModal, setShowChallengeModal] = useState(false);
 
-  // Placeholder data - replace with your actual questions
-  const sampleQuestions = [
-    {
-      destination: "Paris",
-      clues: ["The city of lights and love", "Home to a famous iron tower"],
-      funFact:
-        "The Eiffel Tower grows by up to 6 inches in summer due to heat expansion!",
-      options: ["Paris", "London", "Rome", "Berlin"],
-    },
-    // Add more questions here
-  ];
+  const handleRandomTrivia = async () => {
+    try {
+      setLoading(true);
+      const question = await getRandomTrivia();
+      if (!question) {
+        navigate("/");
+        return;
+      }
+      setCurrentQuestion(question);
+      setOptions(question.options);
 
-  const loadNewQuestion = () => {
-    const randomQuestion =
-      sampleQuestions[Math.floor(Math.random() * sampleQuestions.length)];
-    setCurrentQuestion(randomQuestion);
-    setOptions(randomQuestion.options);
-    setShowFeedback(false);
+      // Update seen questions in localStorage
+      const seenQuestionIds = JSON.parse(
+        localStorage.getItem("seenQuestionIds") || "[]"
+      );
+      if (!seenQuestionIds.includes(question.id)) {
+        seenQuestionIds.push(question.id);
+        localStorage.setItem(
+          "seenQuestionIds",
+          JSON.stringify(seenQuestionIds)
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching question:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
   useEffect(() => {
-    loadNewQuestion();
+    handleRandomTrivia();
   }, []);
 
+  const loadNewQuestion = () => {
+    setShowFeedback(false);
+    handleRandomTrivia();
+  };
+
   const handleAnswer = (answer) => {
-    const correct = answer === currentQuestion.destination;
+    const correct = answer === currentQuestion.city;
     setIsCorrect(correct);
     setShowFeedback(true);
 
     if (correct) {
-      setScore(score + 100);
+      const newScore = score + 100;
+      setScore(newScore);
+      localStorage.setItem("score", newScore);
       confetti({
         particleCount: 100,
         spread: 70,
@@ -58,20 +74,14 @@ export default function Game() {
   };
 
   const handleRegister = (newUsername) => {
-    setUsername(newUsername);
     localStorage.setItem("username", newUsername);
     setShowRegistration(false);
   };
 
-  const handleChallengeClick = () => {
-    if (!username) {
-      setShowRegistration(true);
-    } else {
-      setShowChallengeModal(true);
-    }
-  };
+  //   const handleChallengeClick = () => {};
 
-  if (!currentQuestion) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
+  if (!currentQuestion) return <div>No more questions available!</div>;
 
   return (
     <div className="game-container">
@@ -80,11 +90,17 @@ export default function Game() {
         Home
       </button>
 
-      <div className="score-display">Score: {score}</div>
+      <div className="score-display">
+        <span className="username">{username}</span>
+        <span>•</span>
+        <span>{score} pts</span>
+      </div>
 
-      <button className="challenge-button" onClick={handleChallengeClick}>
-        <span className="material-icons">group_add</span>
-        Challenge a Friend
+      <button
+        className="challenge-button"
+        onClick={() => setShowChallengeModal(true)}
+      >
+        Challenge a Friend!
       </button>
 
       {!showFeedback ? (
@@ -122,7 +138,7 @@ export default function Game() {
           <div className="feedback-content">
             <div className="feedback-emoji">{isCorrect ? "🎉" : "😢"}</div>
             <h2>{isCorrect ? "Correct!" : "Not quite right..."}</h2>
-            <p className="fun-fact">{currentQuestion.funFact}</p>
+            <p className="fun-fact">{currentQuestion.fun_fact[0]}</p>
             <button className="play-again-button" onClick={loadNewQuestion}>
               Next Question
             </button>

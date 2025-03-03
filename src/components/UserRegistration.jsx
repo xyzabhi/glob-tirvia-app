@@ -5,14 +5,27 @@ function UserRegistration({ onRegister, isOpen }) {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
+  const validateUsername = (name) => {
+    if (name.trim().length < 3) {
+      return "Username must be at least 3 characters long";
+    }
+    if (name.trim().length > 20) {
+      return "Username must be less than 20 characters";
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(name)) {
+      return "Username can only contain letters, numbers, and underscores";
+    }
+    return "";
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username.trim().length < 3) {
-      setError("Username must be at least 3 characters long");
+    const validationError = validateUsername(username);
+    if (validationError) {
+      setError(validationError);
       return;
     }
-    // Here we'll later add check for unique username
-    onRegister(username);
+    onRegister(username.trim());
   };
 
   if (!isOpen) return null;

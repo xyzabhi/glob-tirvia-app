@@ -4,7 +4,7 @@ import "./ChallengeModal.css";
 function ChallengeModal({ isOpen, onClose, score, username }) {
   if (!isOpen) return null;
 
-  const shareUrl = `${window.location.origin}/challenge?from=${username}&score=${score}`;
+  const shareUrl = `${window.location.origin}/game?from=${username}&score=${score}`;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -36,7 +36,6 @@ function ChallengeModal({ isOpen, onClose, score, username }) {
         </div>
         <div className="button-group">
           <button className="share-button" onClick={handleShare}>
-            <span className="material-icons">share</span>
             Share Challenge
           </button>
           <button className="close-button" onClick={onClose}>
